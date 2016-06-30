@@ -38,8 +38,8 @@ def get_reservations():
     print "The Search Data: ", request.form, _date
 
     if _date:
-        # return redirect('/listReservations/' + _date)
-        return redirect(url_for('list_reservations' + _date))
+        return redirect('/listReservations/' + _date)
+        # return redirect(url_for('list_reservations' + _date))
     else:
         return json.dumps('message', 'No Date?')
 
@@ -114,10 +114,22 @@ def list_reservations(mon, day, year):
 
     return render_template('list_reservations.html', tables = tables, date = _date)
 
-
 @app.route("/showReservationPage")
-def show_reservation_page():
-    return render_template('create_reservation.html')
+@app.route("/showReservationPage/")
+@app.route("/showReservationPage/<mon>/<day>/<year>/<hr>/<mm>/<table>")
+def show_reservation_page(mon = "", day = "", year = "", hr = "", mm = "", table = ""):
+    # Generate default values for form
+    if mon and day and year:
+        date = "/".join([mon, day, year])
+    else:
+        date = ""
+
+    if hr and mm:
+        time = ":".join([hr, mm])
+    else:
+        time = ""
+
+    return render_template('create_reservation.html', date = date, time = time, table = table)
 
 @app.route("/createReservation", methods=['POST'])
 def create_reservation():
