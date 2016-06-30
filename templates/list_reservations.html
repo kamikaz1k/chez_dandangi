@@ -3,11 +3,13 @@
  
 <head>
     <title>List of Reservations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <style>
         table {
             font-family: Verdana,sans-serif;
             font-size: 15px;
             line-height: 1.5;
+            border-bottom: 1px solid black;
         }
         tr:first {
             font-weight: bold;
@@ -15,34 +17,46 @@
         tr:nth-child(even) {
             background-color: #f1f1f1;
         }
+        td:nth-child(3) {
+            padding-left: 15px;
+            width: 100px;
+        }
+        td, th {
+            padding-right: 40px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
 
     </style>
 </head>
 <body>
+    <h1>Reservations for {{ date }}</h1>
     {% for key, reservations in tables.iteritems() %}
-    <table style="text-align: left; width: 100%">
-        <caption>Table # {{ key }}</caption>
-        <tr>
-            <th>Row ID</th>
-            <th>Table ID</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Holder</th>
-            <th>Contact</th>
-        </tr>
-        {% for entry in reservations %}
-        <tr>
-            <td>{{ entry[0] }}</td>
-            <td>{{ entry[1] }}</td>
-            <td>{{ entry[2] }}</td>
-            <td>{{ entry[3] }}</td>
-            <td>{{ entry[4] }}</td>
-            <td>{{ entry[5] }}</td>
-        </tr>
-        {% else %}
-        <tr><td colspan="6">Unbelievable.  No entries here so far</td></tr>
-        {% endfor %}
-    </table>
+    <div style="padding:10px">
+        <table>
+            <h4>Table # {{ key }}</h4>
+            <tr>
+                <!-- <th>Row ID</th> -->
+                <!-- <th>Table ID</th> -->
+                <th>Start</th>
+                <th>End</th>
+                <th>Holder</th>
+                <th>Contact</th>
+            </tr>
+            {% for entry in reservations %}
+            <tr>
+                <!-- <td>{{ entry[0] }}</td> -->
+                <!-- <td>{{ entry[1] }}</td> -->
+                <td>{{ entry[2].strftime("%H:%M") }}</td>
+                <td>{{ entry[3].strftime("%H:%M")  }}</td>
+                <td>{{ entry[4] }}</td>
+                <td>{{ entry[5] }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">Reservations missing...</td></tr>
+            {% endfor %}
+        </table>
+    </div>
     {% endfor %}
 </body>
 </html>

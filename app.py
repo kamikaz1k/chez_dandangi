@@ -112,7 +112,7 @@ def list_reservations(mon, day, year):
 
     # print "tables: ", tables
 
-    return render_template('list_reservations.html', tables = tables)
+    return render_template('list_reservations.html', tables = tables, date = _date)
 
 
 @app.route("/showReservationPage")
