@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Chez Dandangi Reservations App</title>
+ 
+ 
+    <!-- <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet"> --><script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+ 
+    <!-- <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+ 
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a>
+                    </li>
+                    <li role="presentation"><a href="showSignIn">Sign In</a>
+                    </li>
+                    <li role="presentation"><a href="showSignUp">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Chez Dandangi</h3>
+        </div>
+ 
+    </div>
+
+    <div class="container">
+        <h1>Hello To Reservations @ Chez Dandangi</h1>
+    </div>
+
+    <div class="container">
+        <!-- <div class="row"></div> -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <form class="form-inline" action="/getReservations" method="post">
+                    <div class="form-group">
+                        <label for="search-date" class="sr-only">Reservation Date:</label>
+                        <div class="input-group">
+                            <input class="date form-control"
+                                type="text" 
+                                name="search-date" 
+                                id="search-date" 
+                                class="form-control" 
+                                placeholder="mm/dd/yyyy" 
+                                required autofocus>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search Dates</button>
+                </form>
+            </div>
+        </div>
+    </div>
+ 
+</body>
+
+<script type="text/javascript">
+    $('input.date').datepicker({
+        format: "mm/dd/yyyy"
+    });
+</script>
+ 
+</html>

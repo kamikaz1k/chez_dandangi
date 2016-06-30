@@ -1,0 +1,85 @@
+Create two tables:
+
+reservations:
+- _id BIGINT NOT NULL AUTO_INCREMENT
+- table_id INT NOT NULL FOREIGN_KEY
+- start_time DATETIME NOT NULL
+- end_time DATETIME NOT NULL
+- customer_name VARCHAR(45) NOT NULL
+- customer_phone VARCHAR(20)
+- updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (table_id) REFERENCES table_list(_id)
+
+table_list:
+- _id INT NOT NULL AUTO_INCREMENT
+- Number of seats size INT NOT NULL
+- Table Number: table_number VARCHAR(10) NOT NULL
+
+
+CREATE TABLE reservations (
+_id BIGINT NOT NULL AUTO_INCREMENT,
+table_id INT NOT NULL,
+start_time DATETIME NOT NULL,
+end_time DATETIME NOT NULL,
+customer_name VARCHAR(45) NOT NULL,
+customer_phone VARCHAR(20),
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (table_id) REFERENCES table_list(_id),
+PRIMARY KEY (_id)
+);
+
+INSERT INTO reservations
+(table_id, start_time, end_time, customer_name, customer_phone) 
+VALUES (1, STR_TO_DATE('5/16/2011 20:00', '%c/%e/%Y %H:%i'), STR_TO_DATE('5/16/2011 21:00', '%c/%e/%Y %H:%i'), 'Kaiser', '4165671111');
+
+SELECT * FROM RESERVATIONS WHERE start_time BETWEEN '04/12/2011 12:00:00 AM' AND '05/25/2011 3:53:04 AM';
+
+SELECT * FROM RESERVATIONS WHERE start_time BETWEEN '2011-04-25 00:00:00' AND '2011-05-25 23:59:59';
+
+SELECT * FROM RESERVATIONS WHERE start_time BETWEEN STR_TO_DATE('4/16/2011 20:00', '%c/%e/%Y %H:%i') AND STR_TO_DATE('5/26/2011 20:00', '%c/%e/%Y %H:%i');
+
+CREATE TABLE table_list (
+_id INT NOT NULL AUTO_INCREMENT,
+table_size INT NOT NULL,
+table_number VARCHAR(10) NOT NULL,
+PRIMARY KEY (_id)
+);
+
+INSERT INTO table_list (table_size, table_number) VALUES (4, 'Table 1');
+
+
+CALL sp_createReservation('5/20/2016 20:00', '5/20/2016 21:00', 'Kaiser', '2341234234');
+
+CALL sp_getReservations('4/20/2016 00:00', '4/21/2016 00:00');
+
+
+PRCEDURES::::
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createReservation`(
+    IN p_table_id INTEGER,
+    IN p_start_time VARCHAR(255),
+    IN p_end_time VARCHAR(255),
+    IN p_customer_name VARCHAR(45),
+    IN p_customer_phone VARCHAR(20)
+)
+BEGIN
+    INSERT INTO reservations
+    (table_id, start_time, end_time, customer_name, customer_phone) 
+    VALUES (p_table_id, STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i'), STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i'), p_customer_name, p_customer_phone);
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getReservations`(
+    IN p_start_time VARCHAR(25),
+    IN p_end_time VARCHAR(25)
+)
+BEGIN
+    SELECT * FROM RESERVATIONS WHERE start_time BETWEEN STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i') AND STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i');
+END$$
+DELIMITER ;
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>List of Reservations</title>
+    <style>
+        table {
+            font-family: Verdana,sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        tr:first {
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+<body>
+    <table style="text-align: left; width: 100%">
+        <tr>
+            <th>Row ID</th>
+            <th>Table ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Holder</th>
+            <th>Contact</th>
+        </tr>
+        {% for entry in reservations %}
+        <tr>
+            <td>{{ entry[0] }}</td>
+            <td>{{ entry[1] }}</td>
+            <td>{{ entry[2] }}</td>
+            <td>{{ entry[3] }}</td>
+            <td>{{ entry[4] }}</td>
+            <td>{{ entry[5] }}</td>
+        </tr>
+        {% else %}
+        <tr><td>Unbelievable.  No entries here so far</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
