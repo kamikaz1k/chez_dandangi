@@ -115,6 +115,60 @@ def list_reservations(mon, day, year):
     return render_template('list_reservations.html', tables = tables)
 
 
+@app.route("/showReservationPage")
+def show_reservation_page():
+    return render_template('create_reservation.html')
+
+@app.route("/createReservation", methods=['POST'])
+def create_reservation():
+
+    _name = request.form['inputName']
+    _date = request.form['inputDate']
+    _time = request.form['inputTime']
+    _table = request.form['inputTable']
+    _contact = request.form['inputContact']
+
+    if _name and _date and _time:
+
+        # TODO: Verify _name and _date and _time
+        print "Form:", _name, _date, _time, _contact
+        
+        try:
+            # Connect to DB
+            conn = mysql.connect()
+
+            # Retrieve DB Cursor
+            cursor = conn.cursor()
+
+            # Make query
+            cursor.callproc('sp_createReservation',(_table, _date + _time, _date + _time.split(":")[0] + ":59", _name, _contact))
+            data = cursor.fetchall()
+            
+            # If nothing is returned then creation was a success
+            if len(data) is 0:
+                # Commit changes to db
+                conn.commit()
+                # return json.dumps({'message':'Reservation Created!'})
+                return redirect('/listReservations/' + _date)
+            else:
+                # print "Username already exists? - ", data
+                return json.dumps({ 'error': str(data[0]) })
+     
+        except Exception as e:
+            return render_template('error.html', error = str(e))
+
+        # Finally close cursor & connection so that next 
+        # transaction can take place separately
+        finally:
+            cursor.close()
+            conn.close()
+
+    # IF the signup form fields were not populated
+    else:
+        return json.dumps({'html':'<span>Enter the required fields</span>'})
+
+    # return json.dumps({'html':'<span>Reservation Made!</span>'})
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("page_not_found.html"), 404

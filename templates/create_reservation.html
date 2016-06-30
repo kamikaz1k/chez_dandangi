@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Create Reservations</title>
+</head>
+<body>
+    <div>
+        <h1>Create Reservation</h1>
+        <form class="form-signin" action="/createReservation" method="post">
+
+          <label for="inputName" class="sr-only">Name</label>
+          <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Name" required autofocus>
+          
+          <label for="inputDate" class="sr-only">Date</label>
+          <input type="text" name="inputDate" id="inputDate" class="form-control" placeholder="MM/DD/YYYY" required>
+        
+          <label for="inputTime" class="sr-only">Time</label>
+          <input type="text" name="inputTime" id="inputTime" class="form-control" placeholder="00:00" required>
+        
+          <label for="inputTable" class="sr-only">Table#</label>
+          <input type="text" name="inputTable" id="inputTable" class="form-control" placeholder="Table #" required>
+
+          <label for="inputContact" class="sr-only">Contact</label>
+          <input type="text" name="inputContact" id="inputContact" class="form-control" placeholder="123-123-1234">
+         
+          <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Create Reservation</button>
+        </form>
+    </div>
+</body>
+</html>
+
