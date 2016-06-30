@@ -96,17 +96,23 @@ def list_reservations(mon, day, year):
         print "There was no date?"
 
     # Pad the outstanding reservation times
-    items = reservation_list_builder(int(year), int(mon), int(day), 24)
+    # TODO: Dynamically create dictionary based on the tables listed in DB
+    tables = { "1": [], "2": [] }
+    tables["1"] = reservation_list_builder(int(year), int(mon), int(day), 1);
+    tables["2"] = reservation_list_builder(int(year), int(mon), int(day), 2);
 
-    # loop through reservations and replace reservations
-    for item in reservations:
-        if item[1] == 1:
-            i = item[2].hour
-            items[i] = item
+    # Replace reservations with retrieved ones
+    for table_id in tables:
+        items = tables[table_id]
+        # loop through reservations and replace reservations
+        for item in reservations:
+            if item[1] == int(table_id):
+                i = item[2].hour
+                items[i] = item
 
-    # print "Items: ", items
+    # print "tables: ", tables
 
-    return render_template('list_reservations.html', reservations = items)
+    return render_template('list_reservations.html', tables = tables)
 
 
 @app.errorhandler(404)

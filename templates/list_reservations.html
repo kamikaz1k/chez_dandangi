@@ -19,7 +19,9 @@
     </style>
 </head>
 <body>
+    {% for key, reservations in tables.iteritems() %}
     <table style="text-align: left; width: 100%">
+        <caption>Table # {{ key }}</caption>
         <tr>
             <th>Row ID</th>
             <th>Table ID</th>
@@ -38,8 +40,9 @@
             <td>{{ entry[5] }}</td>
         </tr>
         {% else %}
-        <tr><td>Unbelievable.  No entries here so far</td></tr>
+        <tr><td colspan="6">Unbelievable.  No entries here so far</td></tr>
         {% endfor %}
     </table>
+    {% endfor %}
 </body>
 </html>
