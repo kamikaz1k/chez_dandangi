@@ -183,6 +183,101 @@ def create_reservation():
 
     # return json.dumps({'html':'<span>Reservation Made!</span>'})
 
+@app.route("/editReservationPage/<reservation_id>")
+def edit_reservation_page(reservation_id):
+    # Generate default values for form
+    if reservation_id:
+
+        # print "reservation_id", reservation_id, type(reservation_id)
+
+        try:
+            # Connect to DB
+            conn = mysql.connect()
+
+            # Retrieve DB Cursor
+            cursor = conn.cursor()
+
+            # Make query
+            cursor.callproc('sp_getReservation', [int(reservation_id)]) # args need to be iterable
+            data = cursor.fetchall()
+
+            # print "Reservation Details: ", data, len(data)
+
+            for i in range(len(data)):
+                print "col", i # data[i]
+            
+            # If nothing is returned then reservatuibs was not found
+            if len(data) is 0:
+                return render_template('error.html', error = str(data[0]))
+            else:
+                # Open edit reservation page
+                data = data[0]
+                return render_template('edit_reservation.html', name=data[4], date=data[2].strftime("%m/%d/%Y"), time=data[2].strftime("%H:%M"), table=data[1], party_size=data[6], contact=data[5], reservation_id=reservation_id)
+     
+        except Exception as e:
+            return render_template('error.html', error = str(e))
+
+        # Finally close cursor & connection so that next 
+        # transaction can take place separately
+        finally:
+            cursor.close()
+            conn.close()
+    else:
+        return json.dumps({'html':'<span>Reservation # Missing</span>'})
+
+    # return render_template('create_reservation.html', date = date, time = time, table = table)
+
+@app.route("/editReservation/<reservation_id>", methods=['POST'])
+def edit_reservation(reservation_id):
+
+    _name = request.form['inputName']
+    _date = request.form['inputDate']
+    _time = request.form['inputTime']
+    _table = request.form['inputTable']
+    _contact = request.form['inputContact']
+    _size = request.form['inputSize']
+
+    if _name and _date and _time and _table and _size:
+
+        # TODO: Verify _name and _date and _time
+        # print "Form:", _name, _date, _time, _contact, str(_size)
+        
+        try:
+            # Connect to DB
+            conn = mysql.connect()
+
+            # Retrieve DB Cursor
+            cursor = conn.cursor()
+
+            # Make query
+            cursor.callproc('sp_editReservation',(reservation_id, _table, _date + _time, _date + _time.split(":")[0] + ":59", _name, _contact, _size))
+            data = cursor.fetchall()
+            
+            # If nothing is returned then creation was a success
+            if len(data) is 0:
+                # Commit changes to db
+                conn.commit()
+                # return json.dumps({'message':'Reservation Created!'})
+                return redirect('/listReservations/' + _date)
+            else:
+                # print "Username already exists? - ", data
+                return json.dumps({ 'error': str(data[0]) })
+     
+        except Exception as e:
+            return render_template('error.html', error = str(e))
+
+        # Finally close cursor & connection so that next 
+        # transaction can take place separately
+        finally:
+            cursor.close()
+            conn.close()
+
+    # IF the signup form fields were not populated
+    else:
+        return json.dumps({'html':'<span>Enter the required fields</span>'})
+
+    # return json.dumps({'html':'<span>Reservation Made!</span>'})
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("page_not_found.html"), 404

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Edit Reservations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+      .the-form {
+        padding-top:25px;
+        padding-left: 250px;
+        padding-right: 250px;
+      }
+      input, button {
+        border-radius: 0px !important;
+      }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="the-form">
+          <h1>Edit Reservation</h1>
+          <form class="form-signin" action="{{ '/editReservation/' + reservation_id }}" method="post">
+
+            <label for="inputName" class="sr-only">Name</label>
+            <input type="text" name="inputName" id="inputName" class="form-control" placeholder="Name" value="{{name}}" required autofocus>
+            
+            <label for="inputDate" class="sr-only">Date</label>
+            <input type="text" name="inputDate" id="inputDate" class="form-control" placeholder="MM/DD/YYYY" value="{{date}}" required>
+          
+            <label for="inputTime" class="sr-only">Time</label>
+            <input type="text" name="inputTime" id="inputTime" class="form-control" placeholder="00:00" value="{{time}}" required>
+          
+            <label for="inputTable" class="sr-only">Table#</label>
+            <input type="text" name="inputTable" id="inputTable" class="form-control" placeholder="Table #" value="{{table}}" required>
+
+            <label for="inputSize" class="sr-only">Size of Party</label>
+            <input type="text" name="inputSize" id="inputSize" class="form-control" placeholder="ex. 4" value="{{party_size}}" required>
+
+            <label for="inputContact" class="sr-only">Contact</label>
+            <input type="text" name="inputContact" id="inputContact" class="form-control" placeholder="123-123-1234" value="{{contact}}">
+           
+            <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Change Reservation</button>
+          </form>
+        </div>
+    </div>
+</body>
+</html>
+
