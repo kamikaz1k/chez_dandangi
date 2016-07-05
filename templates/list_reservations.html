@@ -53,7 +53,7 @@
                 <td>{{ entry[4] }} {% if entry[6] %} {{ " (" + entry[6].__str__() + ")" }} {% endif %} </td>
                 <td>{{ entry[5] }}</td>
                 {% if entry[4] %}
-                <td><a href="{{ '/showReservationPage/' + entry[2].strftime("%m/%d/%Y/%H/%M") + '/' + key }}">Edit</a></td>
+                <td><a href="{{ '/editReservationPage/' + entry[0].__str__() }}">Edit</a></td>
                 {% else %}
                 <td><a href="{{ '/showReservationPage/' + entry[2].strftime("%m/%d/%Y/%H/%M") + '/' + key }}">New</a></td>
                 {% endif %}
