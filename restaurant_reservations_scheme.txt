@@ -63,12 +63,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createReservation`(
     IN p_start_time VARCHAR(255),
     IN p_end_time VARCHAR(255),
     IN p_customer_name VARCHAR(45),
-    IN p_customer_phone VARCHAR(20)
+    IN p_customer_phone VARCHAR(20),
+    IN p_party_size INTEGER
 )
 BEGIN
     INSERT INTO reservations
-    (table_id, start_time, end_time, customer_name, customer_phone) 
-    VALUES (p_table_id, STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i'), STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i'), p_customer_name, p_customer_phone);
+    (table_id, start_time, end_time, customer_name, customer_phone, party_size) 
+    VALUES (p_table_id, STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i'), STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i'), p_customer_name, p_customer_phone, p_party_size);
 END$$
 DELIMITER ;
 

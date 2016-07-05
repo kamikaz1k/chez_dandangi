@@ -106,6 +106,7 @@ def list_reservations(mon, day, year):
         items = tables[table_id]
         # loop through reservations and replace reservations
         for item in reservations:
+            # item[1] is the table_id field
             if item[1] == int(table_id):
                 i = item[2].hour
                 items[i] = item
@@ -139,11 +140,12 @@ def create_reservation():
     _time = request.form['inputTime']
     _table = request.form['inputTable']
     _contact = request.form['inputContact']
+    _size = request.form['inputSize']
 
-    if _name and _date and _time:
+    if _name and _date and _time and _table and _size:
 
         # TODO: Verify _name and _date and _time
-        print "Form:", _name, _date, _time, _contact
+        # print "Form:", _name, _date, _time, _contact, str(_size)
         
         try:
             # Connect to DB
@@ -153,7 +155,7 @@ def create_reservation():
             cursor = conn.cursor()
 
             # Make query
-            cursor.callproc('sp_createReservation',(_table, _date + _time, _date + _time.split(":")[0] + ":59", _name, _contact))
+            cursor.callproc('sp_createReservation',(_table, _date + _time, _date + _time.split(":")[0] + ":59", _name, _contact, _size))
             data = cursor.fetchall()
             
             # If nothing is returned then creation was a success

@@ -22,7 +22,7 @@
           <form class="form-signin" action="/createReservation" method="post">
 
             <label for="inputName" class="sr-only">Name</label>
-            <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Name" required autofocus>
+            <input type="text" name="inputName" id="inputName" class="form-control" placeholder="{{name}}" required autofocus>
             
             <label for="inputDate" class="sr-only">Date</label>
             <input type="text" name="inputDate" id="inputDate" class="form-control" placeholder="MM/DD/YYYY" value="{{date}}" required>
@@ -34,7 +34,7 @@
             <input type="text" name="inputTable" id="inputTable" class="form-control" placeholder="Table #" value="{{table}}" required>
 
             <label for="inputSize" class="sr-only">Size of Party</label>
-            <input type="text" name="inputSize" id="inputSize" class="form-control" placeholder="ex. 4" value="{{table}}" required>
+            <input type="text" name="inputSize" id="inputSize" class="form-control" placeholder="ex. 4" value="{{party_size}}" required>
 
             <label for="inputContact" class="sr-only">Contact</label>
             <input type="text" name="inputContact" id="inputContact" class="form-control" placeholder="123-123-1234">
