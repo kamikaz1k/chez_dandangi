@@ -54,6 +54,8 @@ CALL sp_createReservation('5/20/2016 20:00', '5/20/2016 21:00', 'Kaiser', '23412
 
 CALL sp_getReservations('4/20/2016 00:00', '4/21/2016 00:00');
 
+CALL sp_editReservation(12, 2, '5/20/2016 18:00', '5/20/2016 18:59', 'Kaiser', '1231231232', 2);
+
 
 PRCEDURES::::
 
@@ -70,6 +72,30 @@ BEGIN
     INSERT INTO reservations
     (table_id, start_time, end_time, customer_name, customer_phone, party_size) 
     VALUES (p_table_id, STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i'), STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i'), p_customer_name, p_customer_phone, p_party_size);
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_editReservation`(
+    IN p_reservation_id INTEGER,
+    IN p_table_id INTEGER,
+    IN p_start_time VARCHAR(255),
+    IN p_end_time VARCHAR(255),
+    IN p_customer_name VARCHAR(45),
+    IN p_customer_phone VARCHAR(20),
+    IN p_party_size INTEGER
+)
+BEGIN
+    UPDATE RESERVATIONS 
+    SET 
+    table_id=p_table_id,
+    start_time=STR_TO_DATE(p_start_time, '%c/%e/%Y %H:%i'),
+    end_time=STR_TO_DATE(p_end_time, '%c/%e/%Y %H:%i'),
+    customer_name=p_customer_name,
+    customer_phone=p_customer_phone,
+    party_size=p_party_size
+    WHERE _id=p_reservation_id;
 END$$
 DELIMITER ;
 
