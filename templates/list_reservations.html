@@ -19,7 +19,7 @@
         }
         td:nth-child(3) {
             padding-left: 15px;
-            width: 100px;
+            width: 140px;
         }
         td, th {
             padding-right: 40px;
@@ -42,6 +42,7 @@
                 <th>End</th>
                 <th>Holder</th>
                 <th>Contact</th>
+                <th></th>
             </tr>
             {% for entry in reservations %}
             <tr>
@@ -49,11 +50,14 @@
                 <!-- <td>{{ entry[1] }}</td> -->
                 <td>{{ entry[2].strftime("%H:%M") }}</td>
                 <td>{{ entry[3].strftime("%H:%M")  }}</td>
-                <td>{{ entry[4] }}</td>
+                <td>{{ entry[4] }} {% if entry[6] %} {{ " (" + entry[6].__str__() + ")" }} {% endif %} </td>
                 <td>{{ entry[5] }}</td>
+                {% if entry[4] %}
+                <td><a href="{{ '/showReservationPage/' + entry[2].strftime("%m/%d/%Y/%H/%M") + '/' + key }}">Edit</a></td>
+                {% else %}
+                <td><a href="{{ '/showReservationPage/' + entry[2].strftime("%m/%d/%Y/%H/%M") + '/' + key }}">New</a></td>
+                {% endif %}
             </tr>
-            {% else %}
-            <tr><td colspan="4">Reservations missing...</td></tr>
             {% endfor %}
         </table>
     </div>
