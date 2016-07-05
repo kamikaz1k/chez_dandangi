@@ -101,6 +101,16 @@ DELIMITER ;
 
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getReservation`(
+    IN p_reservation_id INTEGER,
+)
+BEGIN
+    SELECT FROM RESERVATIONS WHERE _id=p_reservation_id;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_getReservations`(
     IN p_start_time VARCHAR(25),
     IN p_end_time VARCHAR(25)
